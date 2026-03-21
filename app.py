@@ -19,8 +19,16 @@ st.set_page_config(
 
 st.markdown("""
     <style>
-    .main { background-color: #f5f7f9; }
-    .stMetric { background-color: #ffffff; border-radius: 10px; padding: 15px; border: 1px solid #e1e4e8; }
+    .main { background-color: #0e1117; }
+    .stMetric { 
+        background-color: #1f2937; 
+        border-radius: 10px; 
+        padding: 15px; 
+        border: 1px solid #374151;
+        color: #ffffff !important;
+    }
+    [data-testid="stMetricValue"] { color: #ffffff !important; }
+    [data-testid="stMetricLabel"] { color: #9ca3af !important; }
     .sidebar .sidebar-content { background-image: linear-gradient(#2e7bcf,#2e7bcf); color: white; }
     </style>
     """, unsafe_allow_html=True)
@@ -193,4 +201,4 @@ elif menu == "Project Documentation":
         st.success("**Key Finding 3**: High-spending anomalies are predominantly from City Category 'C'.")
 
 st.divider()
-st.caption("Developed for Data Mining Summative Assessment | Artificial Intelligence Course ")
+st.caption("Developed for Data Mining Summative Assessment | Artificial Intelligence Course")
