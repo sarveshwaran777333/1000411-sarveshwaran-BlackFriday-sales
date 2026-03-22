@@ -267,6 +267,10 @@ with st.sidebar:
     st.image("https://cdn-icons-png.flaticon.com/512/3081/3081559.png", use_container_width=True)
     st.markdown("<br>", unsafe_allow_html=True)
     
+    st.markdown("### 🎯 Mission Objective")
+    st.info("To unlock business intelligence for Black Friday sales by segmenting customers, discovering product associations, and isolating spending anomalies to drive data-driven marketing strategies.")
+    
+    st.markdown("---")
     menu = st.radio("System Modules", [
         "🌐 Executive Command", 
         "🧠 Dimensional Clustering", 
@@ -373,6 +377,8 @@ elif menu == "🧠 Dimensional Clustering":
             fig_elbow = px.line(x=list(range(1, 11)), y=wcss, markers=True, title="The Elbow Method (WCSS)")
             fig_elbow.update_layout(xaxis_title="Number of Clusters", yaxis_title="WCSS")
             st.plotly_chart(apply_transparent_theme(fig_elbow), use_container_width=True)
+            
+            st.info("**Elbow Interpretation:** The 'Elbow' represents the optimal number of clusters (K). It is the point where adding another cluster does not significantly reduce the variance (WCSS). Based on this curve, choosing **K=3 or K=4** balances actionable segmentation granularity with mathematical efficiency.")
         else:
             if run_pca:
                 pca = PCA(n_components=3)
@@ -483,6 +489,12 @@ elif menu == "🚨 Outlier Isolation":
 elif menu == "📂 Data Architecture":
     st.markdown("<div class='gradient-header'>Architecture & Intelligence Report</div>", unsafe_allow_html=True)
     
+    st.markdown("### 💼 Strategic Consulting & Action Matrix")
+    st.success("**1. Merchandising & Placement:** Based on the Neural Association Web, Product Categories 1 and 5 demonstrate highly frequent co-purchasing behavior. **Recommendation:** Place these items in adjacent digital/physical aisles or offer targeted bundle discounts to maximize Average Transaction Value (ATV).")
+    st.success("**2. Geo-Targeted Marketing:** The Outlier Isolation model reveals that high-spending anomalies are disproportionately concentrated in City Category C. **Recommendation:** Reallocate targeted digital marketing spend and premium inventory to capitalize on this high-value geographic segment.")
+    
+    st.markdown("<br>", unsafe_allow_html=True)
+    
     st.markdown("### 🛠️ Data Integrity Validation")
     c1, c2, c3 = st.columns(3)
     c1.metric("Raw Data Points Initialized", f"{raw_count:,}")
@@ -502,9 +514,9 @@ elif menu == "📂 Data Architecture":
     
     with col2:
         st.markdown("### Quantum AI Findings")
-        st.success("🎯 **PCA Demographics**: Male customers embedded in the 26-35 age manifold generate the highest momentum vectors, validated via WCSS Elbow testing.")
-        st.success("🛒 **Graph Associations**: Directed graph nodes confirm overwhelming structural probability links between Product Group 1 and Group 5.")
-        st.success("🚨 **Forest Isolation**: Machine learning isolation identified anomalous sub-clusters localized predominantly within City Category C arrays, skewing toward older demographics.")
+        st.info("🎯 **PCA Demographics**: Male customers embedded in the 26-35 age manifold generate the highest momentum vectors, validated via WCSS Elbow testing.")
+        st.info("🛒 **Graph Associations**: Directed graph nodes confirm overwhelming structural probability links between Product Group 1 and Group 5.")
+        st.info("🚨 **Forest Isolation**: Machine learning isolation identified anomalous sub-clusters localized predominantly within City Category C arrays, skewing toward older demographics.")
 
 st.divider()
 st.caption("© InsightMart Advanced Neural Analytics")
