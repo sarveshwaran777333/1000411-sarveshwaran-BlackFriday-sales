@@ -21,9 +21,17 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
+# Integrating Divi Animations into the Global CSS
 st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap');
+    
+    /* --- Divi Theme Keyframes --- */
+    @keyframes fadeIn { 0% { opacity: 0; } 100% { opacity: 1; } }
+    @keyframes fadeBottom { 0% { opacity: 0; transform: translateY(10%); } 100% { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeLeft { 0% { opacity: 0; transform: translateX(-10%); } 100% { opacity: 1; transform: translateX(0); } }
+    @keyframes fadeRight { 0% { opacity: 0; transform: translateX(10%); } 100% { opacity: 1; transform: translateX(0); } }
+    @keyframes fadeTop { 0% { opacity: 0; transform: translateY(-10%); } 100% { opacity: 1; transform: translateY(0); } }
     
     .stApp {
         background: linear-gradient(-45deg, #090a0f, #1a1c29, #0f172a, #090a0f);
@@ -38,15 +46,13 @@ st.markdown("""
         100% { background-position: 0% 50%; }
     }
 
+    /* Apply Divi fadeBottom to the main container */
     .block-container {
-        animation: slideUpFade 0.8s ease-out forwards;
+        animation: fadeBottom 0.8s ease-out forwards;
         opacity: 0;
-        transform: translateY(20px);
-    }
-    @keyframes slideUpFade {
-        to { opacity: 1; transform: translateY(0); }
     }
 
+    /* Apply Divi fadeTop to the metric cards */
     div[data-testid="stMetric"] {
         background: rgba(255, 255, 255, 0.02);
         backdrop-filter: blur(12px);
@@ -56,11 +62,8 @@ st.markdown("""
         border-radius: 16px;
         box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
         transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        animation: popIn 0.6s ease-out forwards;
-    }
-    @keyframes popIn {
-        0% { opacity: 0; transform: scale(0.9); }
-        100% { opacity: 1; transform: scale(1); }
+        animation: fadeTop 0.8s ease-out forwards;
+        opacity: 0;
     }
     
     div[data-testid="stMetric"]:hover {
@@ -90,6 +93,7 @@ st.markdown("""
         letter-spacing: 1.5px; 
     }
 
+    /* Apply Divi fadeRight to headers */
     .gradient-header {
         background: -webkit-linear-gradient(45deg, #00e5ff, #ff007f, #00e5ff);
         background-size: 200% auto;
@@ -99,12 +103,23 @@ st.markdown("""
         font-size: 3.2em;
         padding-bottom: 10px;
         line-height: 1.2;
-        animation: shine 3s linear infinite;
+        opacity: 0;
+        animation: fadeRight 0.8s ease-out forwards, shine 3s linear infinite;
     }
     @keyframes shine {
         to { background-position: 200% center; }
     }
-    .sub-header { color: #a1a1aa; font-weight: 300; font-size: 1.1em; margin-bottom: 20px; }
+    
+    /* Apply Divi fadeLeft to sub-headers */
+    .sub-header { 
+        color: #a1a1aa; 
+        font-weight: 300; 
+        font-size: 1.1em; 
+        margin-bottom: 20px; 
+        opacity: 0;
+        animation: fadeLeft 0.8s ease-out forwards;
+        animation-delay: 0.2s;
+    }
 
     section[data-testid="stSidebar"] {
         background: rgba(9, 10, 15, 0.8) !important;
@@ -112,7 +127,16 @@ st.markdown("""
         border-right: 1px solid rgba(255, 255, 255, 0.05);
     }
     
-    .stDataFrame { border-radius: 15px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: all 0.3s ease;}
+    /* Apply Divi fadeIn to DataFrames */
+    .stDataFrame { 
+        border-radius: 15px; 
+        overflow: hidden; 
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2); 
+        transition: all 0.3s ease;
+        opacity: 0;
+        animation: fadeIn 1s ease-out forwards;
+        animation-delay: 0.3s;
+    }
     .stDataFrame:hover { box-shadow: 0 4px 25px rgba(0, 229, 255, 0.15); }
     </style>
     """, unsafe_allow_html=True)
