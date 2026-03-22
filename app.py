@@ -21,17 +21,22 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Integrating Divi Animations into the Global CSS
 st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap');
     
-    /* --- Divi Theme Keyframes --- */
     @keyframes fadeIn { 0% { opacity: 0; } 100% { opacity: 1; } }
     @keyframes fadeBottom { 0% { opacity: 0; transform: translateY(10%); } 100% { opacity: 1; transform: translateY(0); } }
     @keyframes fadeLeft { 0% { opacity: 0; transform: translateX(-10%); } 100% { opacity: 1; transform: translateX(0); } }
     @keyframes fadeRight { 0% { opacity: 0; transform: translateX(10%); } 100% { opacity: 1; transform: translateX(0); } }
     @keyframes fadeTop { 0% { opacity: 0; transform: translateY(-10%); } 100% { opacity: 1; transform: translateY(0); } }
+    
+    @keyframes elasticBounce {
+        0% { opacity: 0; transform: scale(0.6) translateY(40px); }
+        50% { opacity: 1; transform: scale(1.05) translateY(-15px); }
+        70% { transform: scale(0.96) translateY(5px); }
+        100% { opacity: 1; transform: scale(1) translateY(0); }
+    }
     
     .stApp {
         background: linear-gradient(-45deg, #090a0f, #1a1c29, #0f172a, #090a0f);
@@ -40,19 +45,18 @@ st.markdown("""
         font-family: 'Inter', sans-serif;
         color: #ffffff;
     }
+    
     @keyframes gradientBG {
         0% { background-position: 0% 50%; }
         50% { background-position: 100% 50%; }
         100% { background-position: 0% 50%; }
     }
 
-    /* Apply Divi fadeBottom to the main container */
     .block-container {
         animation: fadeBottom 0.8s ease-out forwards;
         opacity: 0;
     }
 
-    /* Apply Divi fadeTop to the metric cards */
     div[data-testid="stMetric"] {
         background: rgba(255, 255, 255, 0.02);
         backdrop-filter: blur(12px);
@@ -73,6 +77,23 @@ st.markdown("""
         box-shadow: 0 10px 25px rgba(0, 229, 255, 0.3);
     }
     
+    [data-testid="stPlotlyChart"] {
+        opacity: 0;
+        animation: elasticBounce 1.2s cubic-bezier(0.28, 0.84, 0.42, 1) forwards;
+        animation-delay: 0.2s;
+        border-radius: 16px;
+        transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+        padding: 10px;
+        background: rgba(255, 255, 255, 0.01);
+    }
+    
+    [data-testid="stPlotlyChart"]:hover {
+        transform: scale(1.03) rotate(1deg) translateY(-5px);
+        box-shadow: 0 15px 35px rgba(0, 229, 255, 0.15);
+        background: rgba(255, 255, 255, 0.03);
+        z-index: 10;
+    }
+    
     [data-testid="stMetricValue"] { 
         color: #00e5ff !important; 
         font-family: 'JetBrains Mono', monospace !important;
@@ -80,6 +101,7 @@ st.markdown("""
         font-weight: 800 !important; 
         animation: textGlow 2.5s ease-in-out infinite alternate;
     }
+    
     @keyframes textGlow {
         from { text-shadow: 0 0 5px rgba(0,229,255,0.2); }
         to { text-shadow: 0 0 15px rgba(0,229,255,0.6), 0 0 25px rgba(0,229,255,0.4); }
@@ -93,7 +115,6 @@ st.markdown("""
         letter-spacing: 1.5px; 
     }
 
-    /* Apply Divi fadeRight to headers */
     .gradient-header {
         background: -webkit-linear-gradient(45deg, #00e5ff, #ff007f, #00e5ff);
         background-size: 200% auto;
@@ -106,11 +127,11 @@ st.markdown("""
         opacity: 0;
         animation: fadeRight 0.8s ease-out forwards, shine 3s linear infinite;
     }
+    
     @keyframes shine {
         to { background-position: 200% center; }
     }
     
-    /* Apply Divi fadeLeft to sub-headers */
     .sub-header { 
         color: #a1a1aa; 
         font-weight: 300; 
@@ -127,7 +148,6 @@ st.markdown("""
         border-right: 1px solid rgba(255, 255, 255, 0.05);
     }
     
-    /* Apply Divi fadeIn to DataFrames */
     .stDataFrame { 
         border-radius: 15px; 
         overflow: hidden; 
@@ -137,14 +157,18 @@ st.markdown("""
         animation: fadeIn 1s ease-out forwards;
         animation-delay: 0.3s;
     }
-    .stDataFrame:hover { box-shadow: 0 4px 25px rgba(0, 229, 255, 0.15); }
+    
+    .stDataFrame:hover { 
+        box-shadow: 0 4px 25px rgba(0, 229, 255, 0.15); 
+        transform: translateY(-2px);
+    }
     </style>
     """, unsafe_allow_html=True)
 
 def apply_transparent_theme(fig):
     fig.update_layout(
         paper_bgcolor='rgba(0,0,0,0)',
-        plot_bgcolor='rgba(0,0,0,0.02)',
+        plot_bgcolor='rgba(0,0,0,0)',
         font=dict(color='#a1a1aa', family="Inter"),
         xaxis=dict(gridcolor='rgba(255,255,255,0.05)', showline=False, zeroline=False),
         yaxis=dict(gridcolor='rgba(255,255,255,0.05)', showline=False, zeroline=False),
@@ -169,7 +193,7 @@ def create_network_graph(rules_df):
         edge_y.extend([y0, y1, None])
 
     edge_trace = go.Scatter(
-        x=edge_x, y=edge_y, line=dict(width=1, color='rgba(0, 229, 255, 0.3)'),
+        x=edge_x, y=edge_y, line=dict(width=1.5, color='rgba(0, 229, 255, 0.4)'),
         hoverinfo='none', mode='lines'
     )
 
@@ -185,7 +209,7 @@ def create_network_graph(rules_df):
     node_trace = go.Scatter(
         x=node_x, y=node_y, mode='markers+text',
         hoverinfo='text', text=node_text, textposition="bottom center",
-        marker=dict(showscale=True, colorscale='sunsetdark', size=15, 
+        marker=dict(showscale=True, colorscale='sunsetdark', size=18, 
                     color=list(dict(G.degree).values()),
                     line=dict(width=2, color='#ffffff'))
     )
@@ -308,14 +332,14 @@ elif menu == "🧠 Dimensional Clustering":
             subset['PCA3'] = pca_result[:, 2]
             
             fig_3d = px.scatter_3d(subset, x='PCA1', y='PCA2', z='PCA3', color='Cluster',
-                                   opacity=0.7, color_discrete_sequence=px.colors.qualitative.Vivid,
+                                   opacity=0.8, color_discrete_sequence=px.colors.qualitative.Vivid,
                                    title=f"PCA Projected Vector Space (3 Components)")
         else:
             fig_3d = px.scatter_3d(subset, x='Age_Level', y='Total_Spend_Scaled', z='Tx_Count_Scaled',
-                                   color='Cluster', opacity=0.7, color_discrete_sequence=px.colors.qualitative.Vivid,
+                                   color='Cluster', opacity=0.8, color_discrete_sequence=px.colors.qualitative.Vivid,
                                    title="Standard Feature Vector Space")
             
-        fig_3d.update_traces(marker=dict(size=4, line=dict(width=0)))
+        fig_3d.update_traces(marker=dict(size=5, line=dict(width=0)))
         st.plotly_chart(apply_transparent_theme(fig_3d), use_container_width=True)
 
 elif menu == "🔗 Neural Association Web":
@@ -385,7 +409,7 @@ elif menu == "🚨 Outlier Isolation":
     ))
     fig_scatter.add_trace(go.Scattergl(
         x=anomalies.index, y=anomalies['Purchase'], mode='markers',
-        name="Isolated Anomalies", marker=dict(color='#ff007f', size=8, symbol='x')
+        name="Isolated Anomalies", marker=dict(color='#ff007f', size=10, symbol='x')
     ))
     fig_scatter.update_layout(title="Transaction Scatter Topography", hovermode="closest")
     st.plotly_chart(apply_transparent_theme(fig_scatter), use_container_width=True)
