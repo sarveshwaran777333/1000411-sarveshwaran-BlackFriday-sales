@@ -374,14 +374,14 @@ elif menu == "📂 Data Architecture":
     
     c1, c2 = st.columns(2)
     with c1:
-        st.markdown("### Phase 1: Mathematical Preprocessing")
+        st.markdown("### Mathematical Preprocessing")
         st.write("1. Deployed multidimensional missing value imputation across Product Matrices 2 and 3.")
         st.write("2. Transformed string-based categorical variables into ordinal integer mapping for PCA efficiency.")
         st.write("3. Extracted derived user-level metrics `Total_Spend` and `Transaction_Count`.")
         st.write("4. Standardized arrays via Euclidean `MinMaxScaler` arrays.")
     
     with c2:
-        st.markdown("### Phase 2: Quantum AI Findings")
+        st.markdown("### Quantum AI Findings")
         st.success("🎯 **PCA Demographics**: Male customers embedded in the 26-35 age manifold generate the highest momentum vectors.")
         st.success("🛒 **Graph Associations**: Directed graph nodes confirm overwhelming structural probability links between Product Group 1 and Group 5.")
         st.success("🚨 **Forest Isolation**: Machine learning isolation identified anomalous sub-clusters localized predominantly within City Category C arrays.")
