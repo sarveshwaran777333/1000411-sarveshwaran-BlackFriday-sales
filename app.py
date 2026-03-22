@@ -11,7 +11,7 @@ from mlxtend.frequent_patterns import apriori, association_rules
 from scipy import stats
 
 # ==========================================
-# 1. PAGE CONFIGURATION & ULTRA-MODERN CSS
+# 1. PAGE CONFIGURATION & ANIMATED CSS
 # ==========================================
 st.set_page_config(
     page_title="InsightMart | Black Friday AI",
@@ -24,7 +24,7 @@ st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap');
     
-    /* Animated Gradient Background */
+    /* 1. Animated Gradient Background */
     .stApp {
         background: linear-gradient(-45deg, #090a0f, #1a1c29, #0f172a, #090a0f);
         background-size: 400% 400%;
@@ -38,7 +38,17 @@ st.markdown("""
         100% { background-position: 0% 50%; }
     }
 
-    /* Glassmorphism Metric Cards */
+    /* 2. Page Load Fade & Slide Animation */
+    .block-container {
+        animation: slideUpFade 0.8s ease-out forwards;
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    @keyframes slideUpFade {
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* 3. Glassmorphism Metric Cards with Hover Animation */
     div[data-testid="stMetric"] {
         background: rgba(255, 255, 255, 0.02);
         backdrop-filter: blur(12px);
@@ -47,23 +57,34 @@ st.markdown("""
         padding: 20px;
         border-radius: 16px;
         box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
-        transition: all 0.3s ease-in-out;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        animation: popIn 0.6s ease-out forwards;
     }
-    div[data-testid="stMetric"]:hover {
-        transform: translateY(-5px);
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(0, 229, 255, 0.3);
-        box-shadow: 0 0 20px rgba(0, 229, 255, 0.2);
+    @keyframes popIn {
+        0% { opacity: 0; transform: scale(0.9); }
+        100% { opacity: 1; transform: scale(1); }
     }
     
-    /* Glowing Metric Typography */
+    div[data-testid="stMetric"]:hover {
+        transform: translateY(-8px) scale(1.02);
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(0, 229, 255, 0.5);
+        box-shadow: 0 10px 25px rgba(0, 229, 255, 0.3);
+    }
+    
+    /* 4. Glowing & Pulsating Metric Typography */
     [data-testid="stMetricValue"] { 
         color: #00e5ff !important; 
         font-family: 'JetBrains Mono', monospace !important;
         font-size: 36px !important; 
         font-weight: 800 !important; 
-        text-shadow: 0 0 10px rgba(0,229,255,0.3); 
+        animation: textGlow 2.5s ease-in-out infinite alternate;
     }
+    @keyframes textGlow {
+        from { text-shadow: 0 0 5px rgba(0,229,255,0.2); }
+        to { text-shadow: 0 0 15px rgba(0,229,255,0.6), 0 0 25px rgba(0,229,255,0.4); }
+    }
+
     [data-testid="stMetricLabel"] { 
         color: #8b949e !important; 
         font-size: 14px !important; 
@@ -72,15 +93,20 @@ st.markdown("""
         letter-spacing: 1.5px; 
     }
 
-    /* Gradient Headers */
+    /* 5. Animated Gradient Headers */
     .gradient-header {
-        background: -webkit-linear-gradient(45deg, #00e5ff, #ff007f);
+        background: -webkit-linear-gradient(45deg, #00e5ff, #ff007f, #00e5ff);
+        background-size: 200% auto;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         font-weight: 900;
-        font-size: 3em;
+        font-size: 3.2em;
         padding-bottom: 10px;
         line-height: 1.2;
+        animation: shine 3s linear infinite;
+    }
+    @keyframes shine {
+        to { background-position: 200% center; }
     }
     .sub-header { color: #a1a1aa; font-weight: 300; font-size: 1.1em; margin-bottom: 20px; }
 
@@ -92,7 +118,8 @@ st.markdown("""
     }
     
     /* Dataframes styling */
-    .stDataFrame { border-radius: 15px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+    .stDataFrame { border-radius: 15px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: all 0.3s ease;}
+    .stDataFrame:hover { box-shadow: 0 4px 25px rgba(0, 229, 255, 0.15); }
     </style>
     """, unsafe_allow_html=True)
 
@@ -106,7 +133,8 @@ def apply_transparent_theme(fig):
         plot_bgcolor='rgba(0,0,0,0.02)',
         font=dict(color='#a1a1aa', family="Inter"),
         xaxis=dict(gridcolor='rgba(255,255,255,0.05)', showline=False, zeroline=False),
-        yaxis=dict(gridcolor='rgba(255,255,255,0.05)', showline=False, zeroline=False)
+        yaxis=dict(gridcolor='rgba(255,255,255,0.05)', showline=False, zeroline=False),
+        margin=dict(t=40, b=10, l=10, r=10)
     )
     return fig
 
@@ -175,6 +203,7 @@ if menu == "🌐 Executive Dashboard":
         fig_cat = px.pie(top_cats, values='Purchase', names='Product_Category_1', 
                          title="Revenue Distribution by Category", hole=0.5,
                          color_discrete_sequence=px.colors.sequential.Tealgrn)
+        fig_cat.update_traces(hoverinfo='label+percent', textinfo='none')
         st.plotly_chart(apply_transparent_theme(fig_cat), use_container_width=True)
 
     st.markdown("### 🔬 Statistical Correlations")
@@ -245,6 +274,7 @@ elif menu == "🔗 Market Basket Analysis":
             st.warning("No patterns found. Try lowering the Support threshold.")
 
 elif menu == "🚨 Anomaly Intelligence":
+    # Special animated warning header for the Anomaly page
     st.markdown("<div class='gradient-header' style='background: -webkit-linear-gradient(45deg, #ff007f, #ff7e5f); -webkit-background-clip: text;'>Anomaly Detection (Stage 6)</div>", unsafe_allow_html=True)
     st.markdown("<div class='sub-header'>Identifying extreme spending behaviors that deviate from the norm.</div>", unsafe_allow_html=True)
     
@@ -260,6 +290,20 @@ elif menu == "🚨 Anomaly Intelligence":
         z_scores = np.abs(stats.zscore(raw_data['Purchase']))
         anomalies = raw_data[z_scores > 3]
         upper_limit = raw_data['Purchase'].mean() + (3 * raw_data['Purchase'].std())
+
+    # CSS to make the anomaly text pulse red
+    st.markdown("""
+        <style>
+        .anomaly-alert {
+            color: #ff007f !important;
+            animation: textGlowRed 1.5s infinite alternate;
+        }
+        @keyframes textGlowRed {
+            from { text-shadow: 0 0 5px rgba(255,0,127,0.2); }
+            to { text-shadow: 0 0 20px rgba(255,0,127,0.8); }
+        }
+        </style>
+    """, unsafe_allow_html=True)
 
     st.metric("Detected Anomalous Transactions", len(anomalies))
     
