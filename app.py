@@ -320,6 +320,13 @@ if menu == "🌐 Executive Command":
                            color='Purchase', color_continuous_scale='Viridis')
         st.plotly_chart(apply_transparent_theme(fig_trend), use_container_width=True)
 
+    st.markdown("### 🎯 Occupation vs. Expenditure Profile")
+    occ_sample = raw_data.sample(min(5000, len(raw_data)))
+    fig_occ = px.scatter(occ_sample, x="Occupation", y="Purchase", 
+                         color="City_Category", opacity=0.4,
+                         title="Purchase Trends across Occupation Codes")
+    st.plotly_chart(apply_transparent_theme(fig_occ), use_container_width=True)
+
     st.markdown("### 🔬 Multi-Variable Pearson Correlation Matrix")
     corr = ml_data[['Age_Level', 'Gender_Bin', 'City_Code', 'Total_Spend_Scaled', 'Tx_Count_Scaled']].corr()
     fig_corr = px.imshow(corr, text_auto=True, aspect="auto", color_continuous_scale='magma')
