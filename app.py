@@ -246,7 +246,7 @@ if menu == "🌐 Executive Command":
         top_cats = raw_data.groupby('Product_Category_1')['Purchase'].sum().reset_index()
         fig_cat = px.pie(top_cats, values='Purchase', names='Product_Category_1', 
                          hole=0.6, color_discrete_sequence=px.colors.sequential.Sunsetdark)
-        fig_cat.update_traces(hoverinfo='label+percent', textinfo='none')
+        fig_cat.update_traces(textposition='inside', textinfo='percent')
         st.plotly_chart(apply_transparent_theme(fig_cat), use_container_width=True)
 
     st.markdown("### 🔬 Multi-Variable Pearson Correlation Matrix")
