@@ -251,10 +251,12 @@ def load_and_engineer_data():
     df_ml = df_ml.merge(user_metrics, on='User_ID', how='left')
     
     scaler = MinMaxScaler()
-    scale_cols = ['Purchase', 'Total_Spend', 'Transaction_Count', 'Occupation', 'Marital_Status', 'Stay_Years_Num']
+    scale_cols = ['Purchase', 'Total_Spend', 'Occupation', 'Marital_Status', 'Stay_Years_Num']
     for col in scale_cols:
         if col in df_ml.columns:
             df_ml[f'{col}_Scaled'] = scaler.fit_transform(df_ml[[col]])
+            
+    df_ml['Tx_Count_Scaled'] = scaler.fit_transform(df_ml[['Transaction_Count']])
             
     return df, df_ml, raw_len, clean_len
 
