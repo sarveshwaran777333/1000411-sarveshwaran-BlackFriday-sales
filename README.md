@@ -48,6 +48,11 @@ The purpose of InsightMart is to:
 1. This web application was developed as part of an IB coursework project.
 2. The work is original and created strictly for educational purposes.
 
+## Storyboard and Screenshots
+
+<img width="230" height="749" alt="image" src="https://github.com/user-attachments/assets/3539180a-26e5-43de-bfd3-33da9bc4091c" />
+
+
 ## Tested By
 Saif: Tested the slider interactivity and graph responsiveness.
 
