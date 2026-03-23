@@ -48,6 +48,11 @@ The purpose of InsightMart is to:
 1. This web application was developed as part of an IB coursework project.
 2. The work is original and created strictly for educational purposes.
 
+## Tested By
+Saif: Tested the slider interactivity and graph responsiveness.
+
+Sister: tested design and logic part of the app.
+
 ## Author:
 K. Sarveshwaran  
 IBCP – Grade XI  
