@@ -300,13 +300,17 @@ if menu == "🌐 Executive Command":
                               color='Purchase', color_continuous_scale='tealgrn')
         st.plotly_chart(apply_transparent_theme(fig_sun), use_container_width=True)
         
-    with c2:
+with c2:
         st.markdown("### 🛒 Category Value Distribution")
         top_cats = raw_data.groupby('Product_Category_1')['Purchase'].sum().reset_index()
         fig_cat = px.pie(top_cats, values='Purchase', names='Product_Category_1', 
                          hole=0.6, color_discrete_sequence=px.colors.sequential.Sunsetdark)
         fig_cat.update_traces(textposition='inside', textinfo='percent')
-        st.plotly_chart(apply_transparent_theme(fig_cat), use_container_width=True)
+        
+        fig_cat = apply_transparent_theme(fig_cat)
+        fig_cat.update_layout(margin=dict(r=60)) 
+        
+        st.plotly_chart(fig_cat, use_container_width=True)
 
     st.markdown("### 📈 Behavioral Trend Analysis")
     eda_col1, eda_col2 = st.columns(2)
