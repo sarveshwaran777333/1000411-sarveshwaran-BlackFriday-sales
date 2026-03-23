@@ -58,4 +58,4 @@ K. Sarveshwaran
 IBCP – Grade XI  
 WACP ID: 1000411  
 
-[Live Streamlit app link] (https://1000411-sarveshwaran-blackfriday-sales-jayf2bdnb5wmzqf4vb2lcr.streamlit.app/)
+Live Streamlit app link,[https://1000411-sarveshwaran-blackfriday-sales-jayf2bdnb5wmzqf4vb2lcr.streamlit.app/]
