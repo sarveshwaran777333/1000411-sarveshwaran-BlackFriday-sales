@@ -300,7 +300,7 @@ if menu == "🌐 Executive Command":
                               color='Purchase', color_continuous_scale='tealgrn')
         st.plotly_chart(apply_transparent_theme(fig_sun), use_container_width=True)
         
-with c2:
+    with c2:
         st.markdown("### 🛒 Category Value Distribution")
         top_cats = raw_data.groupby('Product_Category_1')['Purchase'].sum().reset_index()
         fig_cat = px.pie(top_cats, values='Purchase', names='Product_Category_1', 
